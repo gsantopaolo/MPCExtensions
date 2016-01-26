@@ -41,7 +41,7 @@ namespace MPCExtensions.Common
         }
 
         /// <summary>
-        /// Handler for the subscribed event calls EventAction to handle it.
+        /// Handler for the subscribed event, calls EventAction to handle it.
         /// </summary>
         /// <param name="source">Event source.</param>
         /// <param name="eventArgs">Event arguments.</param>

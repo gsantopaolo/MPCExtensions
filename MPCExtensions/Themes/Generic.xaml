@@ -1,10 +1,77 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MPCExtensions.Controls">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ScatterView.xaml" />
-        <ResourceDictionary Source="SpeechableTextBox.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="controls:ScatterView">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:ScatterView">
+                    <Canvas  x:Name="PART_ROOT" Background="{TemplateBinding Background}">
+
+                        <ItemsPresenter>
+                        </ItemsPresenter>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="PART_PANEL"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="controls:SpeechableTextBox">
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeDisabledLowBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:SpeechableTextBox">
+                    <Grid  x:Name="PART_ROOT" Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup >
+                                <VisualState x:Name="Listening">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_TEXT.IsReadOnly" Value="True" />
+                                        <Setter Target="PART_TEXT.Text" Value="Listening.." />
+                                        <Setter Target="PART_BUTTON.IsEnabled" Value="False" />
+                                        <Setter Target="symbol.Symbol" Value="Forward" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NotListening">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_TEXT.IsReadOnly" Value="False" />
+                                        <Setter Target="PART_BUTTON.IsEnabled" Value="True" />
+                                        <Setter Target="symbol.Symbol" Value="Microphone" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <TextBox Grid.Column="0" x:Name="PART_TEXT" Text="{TemplateBinding Text}" Height="50" PlaceholderText="{TemplateBinding Text}" FontSize="20" BorderBrush="{TemplateBinding BorderBrush}"></TextBox>
+                        <Button x:Name="PART_BUTTON" Grid.Column="1" Height="50" Width="50" Padding="0" Background="{TemplateBinding BorderBrush}">
+                            <SymbolIcon x:Name="symbol" Symbol="Microphone" Height="50" Width="50" HorizontalAlignment="Center" Foreground="White"></SymbolIcon>
+                        </Button>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

@@ -141,7 +141,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TeamFamilyControls\MPCExtensions.csproj">
+    <ProjectReference Include="..\MPCExtensions\MPCExtensions.csproj">
       <Project>{4e08276f-2ecc-49fd-80b0-53516b5ec0a4}</Project>
       <Name>MPCExtensions</Name>
     </ProjectReference>

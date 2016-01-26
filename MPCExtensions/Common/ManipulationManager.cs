@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamControls
+namespace MPCExtensions.Common
 {
     internal sealed class ManipulationManager : InputProcessor
     {

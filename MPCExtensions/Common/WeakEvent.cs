@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace TeamControls
+namespace MPCExtensions.Common
 {
     /// <summary>
     /// Implements a weak reference that allows owner to be garbage collected even with this weak handler subscribed

@@ -141,9 +141,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TeamFamilyControls\TeamControls.csproj">
+    <ProjectReference Include="..\TeamFamilyControls\MPCExtensions.csproj">
       <Project>{4e08276f-2ecc-49fd-80b0-53516b5ec0a4}</Project>
-      <Name>TeamControls</Name>
+      <Name>MPCExtensions</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

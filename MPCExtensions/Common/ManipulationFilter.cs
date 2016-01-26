@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamControls
+namespace MPCExtensions.Common
 {
     /// <summary>
     /// Provides implementations of the <see cref="FilterManipulation"/> delegate that are useful in this sample.

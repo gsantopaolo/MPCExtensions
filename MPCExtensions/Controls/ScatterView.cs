@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPCExtensions.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace TeamControls
+namespace MPCExtensions.Controls
 {
     [TemplatePart(Name = PART_ROOT_NAME, Type = typeof(Canvas))]
     public sealed class ScatterView : ItemsControl
@@ -19,16 +20,11 @@ namespace TeamControls
         {
             this.DefaultStyleKey = typeof(ScatterView);
             //this.PointerPressed += ScatterView_PointerPressed;
-        }
-
-        private void ScatterView_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
             
         }
 
-        private static int Zindex = 0;
 
-        
+
 
         //private void MyControl_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         //{
@@ -46,7 +42,7 @@ namespace TeamControls
             set { SetValue(AllowItemsRotationProperty, value); }
         }
         public static readonly DependencyProperty AllowItemsRotationProperty =
-           DependencyProperty.Register(nameof(AllowItemsRotation), typeof(bool), typeof(ScatterView), new PropertyMetadata(false));
+           DependencyProperty.Register(nameof(AllowItemsRotation), typeof(bool), typeof(ScatterView), new PropertyMetadata(true));
 
         protected override void OnItemContainerStyleChanged(Style oldItemContainerStyle, Style newItemContainerStyle)
         {

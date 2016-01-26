@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace TeamControls
+namespace MPCExtensions.Common
 {
     public static class helper
     {
@@ -131,8 +131,11 @@ namespace TeamControls
         public static int i = 100;
         private void OnPointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
         {
+            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+                return;
+
             _target.Opacity = 0.5;
-            
+           
                         
             var indexes = new List<int>();
             Panel panel = _target.FindVisualParent<Panel>();
@@ -156,7 +159,7 @@ namespace TeamControls
                         presenter.SetValue(Canvas.ZIndexProperty, indexes.Max() + 1);
                     }
                 }
-                else if (indexes.Max() >= Int16.MaxValue)
+                else if (indexes.Count > 0 && indexes.Max() >= Int16.MaxValue)
                 {
                     // Need to rearrange all ZIndexs!
                     var result = panel.Children.OrderBy(x => Canvas.GetZIndex(x));

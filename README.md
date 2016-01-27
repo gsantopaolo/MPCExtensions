@@ -31,7 +31,7 @@ Actually there is no simple way to fill a textbox directly with your speech.
 With this control, users will be able to click the mic button and speech. Its
 own voice will be automatically recognized and speech translated to text
 
-![](<E:/ink.gif>)
+![](<http://www.nuiworld.net/wp-content/uploads/2016/01/ink.gif>)
 
  
 
@@ -43,7 +43,7 @@ textbox directly with your speech.
 With this control, users will be able to click the mic button and speech. Its
 own voice will be automatically recognized and speech translated to text.
 
-![](<E:/speech.gif>)
+![](<http://www.nuiworld.net/wp-content/uploads/2016/01/speech.gif>)
 
 Todo: improve control’s theme to make it appear more similar to the Cortana (Ask
 me anything one) in terms of UI and also visual feedback in terms of sounds like
@@ -90,8 +90,7 @@ You can contribute to this repo in two ways:
     your idea will reach meet our community goal then you will see you idea
     bring to life.
 
-    Just open a new issue and we will mark it as feature request.  
-    
+    Just open a new issue and we will mark it as feature request.
 
 NuGet:
 ------

@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="Common\AudioCapturePermissions.cs" />
     <Compile Include="Common\DeviceFamily.cs" />
+    <Compile Include="Common\VisualTreeHelperEx.cs" />
+    <Compile Include="Controls\InkToTextCanvas.cs" />
     <Compile Include="Controls\SpeechableTextBox.cs" />
     <Compile Include="Common\WeakEvent.cs" />
     <Compile Include="Common\InputProcessor.cs" />

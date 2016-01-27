@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Controls;
 namespace MPCExtensions.Controls
 {
     [TemplatePart(Name = PART_ROOT_NAME, Type = typeof(Canvas))]
-    public sealed class ScatterView : ItemsControl
+    public class ScatterView : ItemsControl
     {
         private const string PART_ROOT_NAME = "PART_ROOT";
 

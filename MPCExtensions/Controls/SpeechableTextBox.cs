@@ -13,7 +13,7 @@ namespace MPCExtensions.Controls
     [TemplatePart(Name = PART_ROOT_NAME, Type = typeof(StackPanel))]
     [TemplatePart(Name = PART_TEXT_NAME, Type = typeof(TextBox))]
     [TemplatePart(Name = PART_BUTTON_NAME, Type = typeof(Button))]
-    public sealed class SpeechableTextBox : Control
+    public class SpeechableTextBox : Control
     { 
         private const string PART_ROOT_NAME = "PART_ROOT";
         private const string PART_TEXT_NAME = "PART_TEXT";

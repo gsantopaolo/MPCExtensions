@@ -35,6 +35,20 @@
         </Setter>
     </Style>
 
+    <Style TargetType="controls:InkToTextCanvas">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:InkToTextCanvas">
+                    <Grid x:Name="PART_ROOT">
+                        <InkCanvas x:Name="PART_INKER" >
+                        </InkCanvas>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
     <Style TargetType="controls:SpeechableTextBox">
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeDisabledLowBrush}" />
         <Setter Property="Template">

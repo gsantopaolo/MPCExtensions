@@ -12,5 +12,6 @@
         <!--<local:ScatterviewSimpleScenario/>-->
         <!--<local:SpeechableTextBox />-->
         <local:InkToTextCanvas/>
+        <!--<local:TestPage />-->
     </Grid>
 </Page>

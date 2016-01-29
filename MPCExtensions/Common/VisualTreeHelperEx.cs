@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace MPCExtensions.Common
@@ -187,12 +188,16 @@ namespace MPCExtensions.Common
         }
         #endregion
 
-        public static UIElement FindRoot(UIElement obj)
+        public static UIElement FindRoot(UIElement obj, bool isScatterView)
         {
+           
             UIElement parent = VisualTreeHelper.GetParent(obj) as UIElement;
-            if (parent == null)
+
+            if (parent == null )
                 return obj;
-            else return FindRoot(parent);
+            else if (isScatterView && parent is ContentPresenter /*&& ((FrameworkElement)parent).Name == "PART_PANEL"*/)
+                return parent;
+            else return FindRoot(parent, isScatterView);
         }
     }
 }

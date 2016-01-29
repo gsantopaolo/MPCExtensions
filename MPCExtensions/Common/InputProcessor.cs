@@ -194,6 +194,8 @@ namespace MPCExtensions.Common
 
         private void OnPointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
         {
+            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+                return;
             // Route the events to the gesture recognizer.
             // All intermediate points are passed to the gesture recognizer in
             // the coordinate system of the reference element.
@@ -206,6 +208,8 @@ namespace MPCExtensions.Common
 
         private void OnPointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
         {
+            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+                return;
             // Obtain current point in the coordinate system of the reference element
             Windows.UI.Input.PointerPoint currentPoint = args.GetCurrentPoint(_reference);
 
@@ -241,6 +245,9 @@ namespace MPCExtensions.Common
 
         private void OnPointerCanceled(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
         {
+            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+                return;
+
             _gestureRecognizer.CompleteGesture();
 
             // Release pointer capture on the pointer associated to this event

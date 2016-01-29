@@ -86,6 +86,7 @@ namespace MPCExtensions.Controls
             }
             catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.ToString());
                 //// Handle the speech privacy policy error.
                 //if ((uint)exception.HResult == HResultPrivacyStatementDeclined)
                 //{

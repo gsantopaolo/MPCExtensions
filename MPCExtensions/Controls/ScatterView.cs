@@ -24,18 +24,6 @@ namespace MPCExtensions.Controls
         }
 
 
-
-
-        //private void MyControl_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (((FrameworkElement)sender).TemplatedParent == null) return;
-        //    ContentPresenter presenter = (ContentPresenter)((FrameworkElement)sender).TemplatedParent;
-
-        //    int currentValue = Panel.GetZIndex(presenter);
-        //    Console.WriteLine(currentValue);
-        //    Panel.SetZIndex(presenter, Zindex++);
-        //}
-
         public bool AllowItemsRotation
         {
             get { return (bool)GetValue(AllowItemsRotationProperty); }

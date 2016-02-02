@@ -1,0 +1,32 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MPCExtensions</id>
+    <version>1.0.0</version>
+    <authors>Gian Paolo Santopaolo</authors>
+    <owners>Gian Paolo Santopaolo</owners>
+    <licenseUrl>https://github.com/gsantopaolo/MPCExtensions/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/gsantopaolo/MPCExtensions</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/gsantopaolo/MPCExtensions/master/Assets/NuGetLogo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      This assembly contains a set of extensions allowing developers to create more personal and Universal Windows Platform (UWP) applications. 
+    </description>
+    <summary>It is all about making user’s experiences on Windows 10 more personal on any device he is running his application.</summary>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright (c) 2016 Gian Paolo Santopaolo</copyright>
+    <tags>Windows 10, Windows10, W10, UWP, WinRT, XAML, More Personal Computing</tags>
+    <dependencies>
+      <!--<dependency id="SampleDependency" version="1.0" />-->
+    </dependencies>
+  </metadata>
+  <files>
+
+    <file src="lib\" target="lib\uap10.0\" />
+    <file src="lib\MPCExtensions\" target="lib\uap10.0\MPCExtensions\" />
+    <!--<file src="lib\MPCExtensions\Styles\" target="lib\uap10.0\MPCExtensions\Styles\" />
+    <file src="lib\MPCExtensions\Controls\" target="lib\uap10.0\MPCExtensions\Controls\" />-->
+    <file src="build\" target="build\uap10.0\" />
+
+  </files>
+</package>

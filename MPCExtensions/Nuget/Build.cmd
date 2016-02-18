@@ -58,19 +58,19 @@ xcopy.exe "%TARGETDIR%*.dll" "%NUPKG%\lib\" /y >nul
 echo Copy \lib\*.pri(s)
 xcopy.exe "%TARGETDIR%*.pri" "%NUPKG%\lib\" /y >nul
 
-echo Copy \%TARGETDIR%%TARGETNAME%\*.*
+echo Copy \%TARGETDIR%%TARGETNAME%\*.*  %NUPKG%\lib\%TARGETNAME%\ 
 xcopy.exe "%TARGETDIR%%TARGETNAME%\*.*" "%NUPKG%\lib\%TARGETNAME%\" /s/e/y >nul
 
-echo Copy \build\%TARGETNAME%.targets
-xcopy.exe "%PROJECTDIR%Nuget\*.targets" "%NUPKG%\build\" /y >nul
 
 echo Copy \%TARGETNAME%.nuspec
 xcopy.exe "%PROJECTDIR%nuget\%TARGETNAME%.nuspec" "%NUPKG%" /y >nul
 
-echo Execute Pack %NUPKG%\%TARGETNAME%.nuspec
-"%PROJECTDIR%nuget\NuGet.exe" pack "%NUPKG%\%TARGETNAME%.nuspec" -Verbosity normal -OutputDirectory "%NUPKG%" -NonInteractive 
+md %NUPKG%\build
 
-echo Copy %NUPKG%\*.nupkg
+echo Execute Pack %NUPKG%\ +++ %TARGETNAME%.nuspec ---------------- OutputDirectory "%NUPKG%" 
+"%PROJECTDIR%nuget\NuGet.exe" pack "%NUPKG%\%TARGETNAME%.nuspec" -Verbosity detailed -OutputDirectory "%NUPKG%" -NonInteractive 
+
+echo Copy %NUPKG%\*.nupkg +++++
 xcopy.exe "%NUPKG%\*.nupkg" "c:\nuget-local\" /y >nul
 
 :end

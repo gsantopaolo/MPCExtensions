@@ -105,6 +105,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="mpcextensions.pfx" />
     <None Include="Nuget\Build.cmd" />
     <None Include="Nuget\MPCExtensions.nuspec" />
     <None Include="project.json" />
@@ -114,7 +115,7 @@
     <Compile Include="Common\DeviceFamily.cs" />
     <Compile Include="Common\VisualTreeHelperEx.cs" />
     <Compile Include="Controls\InkToTextCanvas.cs" />
-    <Compile Include="Controls\SpeechableTextBox.cs" />
+    <Compile Include="Controls\VoiceToTextBox.cs" />
     <Compile Include="Common\WeakEvent.cs" />
     <Compile Include="Common\InputProcessor.cs" />
     <Compile Include="Common\ManipulationFilter.cs" />
@@ -135,6 +136,12 @@
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>mpcextensions.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>

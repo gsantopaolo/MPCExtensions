@@ -20,7 +20,7 @@ namespace MPCExtensions.Controls
         {
             this.DefaultStyleKey = typeof(ScatterView);
             //this.PointerPressed += ScatterView_PointerPressed;
-            
+
         }
 
 
@@ -60,7 +60,7 @@ namespace MPCExtensions.Controls
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
-            if(element is FrameworkElement)
+            if (element is FrameworkElement)
                 ((FrameworkElement)element).Loaded += Element_Loaded;
         }
 
@@ -82,7 +82,7 @@ namespace MPCExtensions.Controls
 
         protected override void OnApplyTemplate()
         {
-            
+
             _canvas = GetTemplateChild(PART_ROOT_NAME) as Canvas;
             InitEvents();
         }

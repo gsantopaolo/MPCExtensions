@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MPCExtensions</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Gian Paolo Santopaolo</authors>
     <owners>Gian Paolo Santopaolo</owners>
     <licenseUrl>https://github.com/gsantopaolo/MPCExtensions/blob/master/LICENSE</licenseUrl>
@@ -17,7 +17,7 @@
     <copyright>Copyright (c) 2016 Gian Paolo Santopaolo</copyright>
     <tags>Windows 10, Windows10, W10, UWP, WinRT, XAML, More Personal Computing</tags>
     <dependencies>
-      <!--<dependency id="SampleDependency" version="1.0" />-->
+      <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="1.0.3" />
     </dependencies>
   </metadata>
   <files>

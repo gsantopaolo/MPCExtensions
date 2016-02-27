@@ -114,7 +114,6 @@ namespace MPCExtensions.Controls
                         speechRecognizer?.Dispose();
                         speechRecognizer = null;
                     }
-                    //await TryDisposeSpeech();
                 }
                 catch (Exception ex)
                 {
@@ -176,46 +175,6 @@ namespace MPCExtensions.Controls
                 this.IsReadOnly = false;
                 listening = false;
             }
-            //try
-            //{
-            //    listening = true;
-
-            //    // if SpeechRecognizer inizialization failed notthing else to do
-            //    if (await TryInitSpeech() == false)
-            //        return;
-
-            //    VisualStateManager.GoToState(this, VISUAL_STATE_LISTENING, true);
-            //    this.IsReadOnly = true;
-            //    this.Text = LISTENING_TEXT;
-
-            //    SpeechRecognitionResult speechRecognitionResult = await speechRecognizer.RecognizeAsync();
-            //    if (speechRecognitionResult?.Status == SpeechRecognitionResultStatus.Success)
-            //    {
-            //        // remove last chat of recognized text if it is a point (never saw a text box filled like a sentence with the point at the end)
-            //        if (speechRecognitionResult.Text.Length > 1 && speechRecognitionResult.Text.Substring(speechRecognitionResult.Text.Length - 1, 1) == ".")
-            //            Text = speechRecognitionResult.Text.Remove(speechRecognitionResult.Text.Length - 1);
-            //        else
-            //            Text = speechRecognitionResult.Text;
-            //    }
-            //    else
-            //        Text = SPEECH_RECOGNITION_FAILED;
-
-            //    hypotesis = string.Empty;
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Diagnostics.Debug.WriteLine(ex.Message);
-            //    Text = SPEECH_RECOGNITION_FAILED;
-            //}
-            //finally
-            //{
-            //    timer.Stop();
-            //    await TryDisposeSpeech();
-
-            //    VisualStateManager.GoToState(this, VISUAL_STATE_NOT_LISTENING, true);
-            //    this.IsReadOnly = false;
-            //    listening = false;
-            //}
         }
 
         private async void SpeechRecognizer_HypothesisGenerated(SpeechRecognizer sender, SpeechRecognitionHypothesisGeneratedEventArgs args)

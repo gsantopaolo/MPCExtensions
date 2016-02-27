@@ -23,7 +23,7 @@ namespace MPCExtensions.Controls
         private const string VISUAL_STATE_LISTENING = "Listening";
         private const string VISUAL_STATE_NOT_LISTENING = "NotListening";
         private const string VISUAL_STATE_VOICE_DISABLED = "VoiceDisabled";
-        private const string DICTATION = "dictation";
+        private const string WEB_SEARCH = "web search";
         private const string PLACE_HOLDER_TEXT = "Type or Speech";
         private const string SPEECH_RECOGNITION_FAILED = "Speech Recognition Failed";
         private const string LISTENING_TEXT = "Listening..";
@@ -35,6 +35,7 @@ namespace MPCExtensions.Controls
         private string hypotesis = string.Empty;
         private bool listening;
         private static Random randomizer = new Random();
+        private bool firstStopAttemptDone;
         #endregion
 
         #region ctor
@@ -103,22 +104,22 @@ namespace MPCExtensions.Controls
                 // complete.
                 try
                 {
-                    await speechRecognizer.StopRecognitionAsync();
-
+                    if (firstStopAttemptDone == false)
+                    {
+                        await speechRecognizer?.StopRecognitionAsync();
+                        firstStopAttemptDone = true;
+                    }
+                    else
+                    {
+                        speechRecognizer?.Dispose();
+                        speechRecognizer = null;
+                    }
+                    //await TryDisposeSpeech();
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
-                finally
-                {
-
-                    //timer.Stop();
-                    //VisualStateManager.GoToState(this, VISUAL_STATE_NOT_LISTENING, true);
-                    //this.IsReadOnly = false;
-                    //voiceButton.IsEnabled = true;
-                }
-
             }
         }
 
@@ -126,92 +127,95 @@ namespace MPCExtensions.Controls
         {
             try
             {
+                // Get the top user-preferred language and its display name.
+                var topUserLanguage = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
+                var language = new Windows.Globalization.Language(topUserLanguage);
+
+                firstStopAttemptDone = false;
                 listening = true;
-
-                // if SpeechRecognizer inizialization failed notthing else to do
-                if (await TryInitSpeech() == false)
-                    return;
-
-                VisualStateManager.GoToState(this, VISUAL_STATE_LISTENING, true);
-                this.IsReadOnly = true;
-                this.Text = LISTENING_TEXT;
-
-                SpeechRecognitionResult speechRecognitionResult = await speechRecognizer.RecognizeAsync();
-                if (speechRecognitionResult.Status == SpeechRecognitionResultStatus.Success)
+                using (speechRecognizer = new SpeechRecognizer(language))
                 {
-                    // remove last chat of recognized text if it is a point (never saw a text box filled like a sentence with the point at the end)
-                    if (speechRecognitionResult.Text.Length > 1 && speechRecognitionResult.Text.Substring(speechRecognitionResult.Text.Length - 1, 1) == ".")
-                        Text = speechRecognitionResult.Text.Remove(speechRecognitionResult.Text.Length - 1);
-                    else
-                        Text = speechRecognitionResult.Text;
-                }
-                else
-                    Text = SPEECH_RECOGNITION_FAILED;
 
-                hypotesis = string.Empty;
+                    var dictationConstraint = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.WebSearch, WEB_SEARCH);
+                    speechRecognizer.Constraints.Add(dictationConstraint);
+                    SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
+
+                    // setting timeouts
+                    speechRecognizer.Timeouts.InitialSilenceTimeout = TimeSpan.FromSeconds(4.0);
+                    speechRecognizer.Timeouts.BabbleTimeout = TimeSpan.FromSeconds(4.0);
+                    speechRecognizer.Timeouts.EndSilenceTimeout = TimeSpan.FromSeconds(1.0);
+
+                    speechRecognizer.HypothesisGenerated += SpeechRecognizer_HypothesisGenerated;
+
+                    if (compilationResult.Status != SpeechRecognitionResultStatus.Success)
+                        return;
+
+                    VisualStateManager.GoToState(this, VISUAL_STATE_LISTENING, true);
+                    this.IsReadOnly = true;
+                    this.Text = LISTENING_TEXT;
+
+                    SpeechRecognitionResult speechRecognitionResult = await speechRecognizer.RecognizeAsync();
+                    if (speechRecognitionResult.Status == SpeechRecognitionResultStatus.Success)
+                        Text = speechRecognitionResult.Text;
+                    else
+                        Text = SPEECH_RECOGNITION_FAILED;
+
+                   
+                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                Text = SPEECH_RECOGNITION_FAILED;
+                Text = string.Empty;
             }
             finally
             {
                 timer.Stop();
-                await TryDisposeSpeech();
-
+                hypotesis = string.Empty;
                 VisualStateManager.GoToState(this, VISUAL_STATE_NOT_LISTENING, true);
                 this.IsReadOnly = false;
                 listening = false;
             }
-        }
+            //try
+            //{
+            //    listening = true;
 
-        /// <summary>
-        /// Tries to iniziaizlize the SpeechRecognizer object
-        /// </summary>
-        /// <returns>true if SpeechRecognizer is succesfully inizialized, false otherwise</returns>
-        private async Task<bool> TryInitSpeech()
-        {
-            bool retVal = false;
+            //    // if SpeechRecognizer inizialization failed notthing else to do
+            //    if (await TryInitSpeech() == false)
+            //        return;
 
-            try
-            {
-                await TryDisposeSpeech();
+            //    VisualStateManager.GoToState(this, VISUAL_STATE_LISTENING, true);
+            //    this.IsReadOnly = true;
+            //    this.Text = LISTENING_TEXT;
 
-                speechRecognizer = new SpeechRecognizer();
+            //    SpeechRecognitionResult speechRecognitionResult = await speechRecognizer.RecognizeAsync();
+            //    if (speechRecognitionResult?.Status == SpeechRecognitionResultStatus.Success)
+            //    {
+            //        // remove last chat of recognized text if it is a point (never saw a text box filled like a sentence with the point at the end)
+            //        if (speechRecognitionResult.Text.Length > 1 && speechRecognitionResult.Text.Substring(speechRecognitionResult.Text.Length - 1, 1) == ".")
+            //            Text = speechRecognitionResult.Text.Remove(speechRecognitionResult.Text.Length - 1);
+            //        else
+            //            Text = speechRecognitionResult.Text;
+            //    }
+            //    else
+            //        Text = SPEECH_RECOGNITION_FAILED;
 
-                var dictationConstraint = new SpeechRecognitionTopicConstraint(SpeechRecognitionScenario.Dictation, DICTATION);
-                speechRecognizer.Constraints.Add(dictationConstraint);
-                SpeechRecognitionCompilationResult compilationResult = await speechRecognizer.CompileConstraintsAsync();
+            //    hypotesis = string.Empty;
+            //}
+            //catch (Exception ex)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(ex.Message);
+            //    Text = SPEECH_RECOGNITION_FAILED;
+            //}
+            //finally
+            //{
+            //    timer.Stop();
+            //    await TryDisposeSpeech();
 
-                speechRecognizer.HypothesisGenerated += SpeechRecognizer_HypothesisGenerated;
-
-                if (compilationResult.Status == SpeechRecognitionResultStatus.Success)
-                    retVal = true;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                Text = SPEECH_RECOGNITION_FAILED;
-                retVal = false;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Tries to dispose the SpeechRecognizer object
-        /// </summary>
-        private async Task TryDisposeSpeech()
-        {
-            if (speechRecognizer != null)
-            {
-                speechRecognizer.HypothesisGenerated -= SpeechRecognizer_HypothesisGenerated;
-                speechRecognizer.Dispose();
-                speechRecognizer = null;
-            }
-
-            await Task.Yield();
+            //    VisualStateManager.GoToState(this, VISUAL_STATE_NOT_LISTENING, true);
+            //    this.IsReadOnly = false;
+            //    listening = false;
+            //}
         }
 
         private async void SpeechRecognizer_HypothesisGenerated(SpeechRecognizer sender, SpeechRecognitionHypothesisGeneratedEventArgs args)

@@ -148,7 +148,7 @@ namespace MPCExtensions.Common
                 }
                 return obj as T;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

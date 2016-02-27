@@ -93,6 +93,15 @@ namespace MPCExtensions.Common
             }
             _gestureRecognizer.GestureSettings = settings;
 
+            _gestureRecognizer.ShowGestureFeedback = true;
+            Windows.UI.Input.CrossSlideThresholds cst = new Windows.UI.Input.CrossSlideThresholds();
+            cst.SelectionStart = 2;
+            cst.SpeedBumpStart = 3;
+            cst.SpeedBumpEnd = 4;
+            cst.RearrangeStart = 5;
+            _gestureRecognizer.CrossSlideHorizontally = true;
+            _gestureRecognizer.CrossSlideThresholds = cst;
+
             ConfigureHandlers(scale || rotate || translate);
         }
 

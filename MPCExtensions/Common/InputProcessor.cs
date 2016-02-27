@@ -54,7 +54,7 @@ namespace MPCExtensions.Common
         // Reference element that contains the coordinate space used for expressing transformations 
         // during manipulation, usually the parent element of Target in the UI tree
         protected Windows.UI.Xaml.Controls.Canvas _reference;
-        public Windows.UI.Xaml.FrameworkElement Reference
+        public Canvas Reference
         {
             get { return _reference; }
         }

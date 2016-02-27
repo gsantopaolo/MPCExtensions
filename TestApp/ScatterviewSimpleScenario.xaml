@@ -8,14 +8,22 @@
     xmlns:controls="using:MPCExtensions.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:ScatterView ItemsSource="{x:Bind Images}" AllowItemsRotation="True">
-            <controls:ScatterView.ItemTemplate>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"><!--ItemsSource="{x:Bind Images}"-->
+        <controls:ScatterView  AllowItemsRotation="True">
+            <controls:ScatterView.Items>
+                <Grid Width="200" Height="200" Background="Red" ManipulationMode="None">
+                    <Button Width="50" Height="50"/>
+                </Grid>
+                <Grid Width="100" Height="150" Background="Green">
+                    <Button Width="50" Height="50"/>
+                </Grid>
+            </controls:ScatterView.Items>
+            <!--<controls:ScatterView.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
                     <Image Source="{x:Bind }"  />
 
                 </DataTemplate>
-            </controls:ScatterView.ItemTemplate>
+            </controls:ScatterView.ItemTemplate>-->
         </controls:ScatterView>
     </Grid>
 </Page>

@@ -13,5 +13,6 @@
         <!--<local:SpeechableTextBox />-->
         <local:InkToTextCanvas/>
         <!--<local:TestPage />-->
+        <!--<local:BlankPage1/>-->
     </Grid>
 </Page>

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
@@ -103,11 +102,18 @@ namespace MPCExtensions.Controls
 
                     root = VisualTreeHelperEx.FindRoot(container, false);
                     contentPresenter = VisualTreeHelperEx.FindRoot(container, true);
+                    
+                    //contentPresenter.PointerEntered += Element_PointerEntered;
+                    contentPresenter.AddHandler(UIElement.PointerEnteredEvent, new PointerEventHandler(Element_PointerEntered), true);
 
-                    contentPresenter.PointerEntered += Element_PointerEntered;
-                    contentPresenter.PointerExited += Element_PointerExited;
-                    contentPresenter.PointerCanceled += Element_PointerCanceled;
-                    contentPresenter.PointerReleased += Element_PointerCanceled;
+                    //contentPresenter.PointerExited += Element_PointerExited;
+                    contentPresenter.AddHandler(UIElement.PointerExitedEvent, new PointerEventHandler(Element_PointerExited), true);
+
+                    //contentPresenter.PointerCanceled += Element_PointerCanceled;
+                    contentPresenter.AddHandler(UIElement.PointerCanceledEvent, new PointerEventHandler(Element_PointerCanceled), true);
+
+                    //contentPresenter.PointerReleased += Element_PointerCanceled;
+                    contentPresenter.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(Element_PointerCanceled), true);
                 }
             }
             catch (Exception ex)
@@ -120,34 +126,32 @@ namespace MPCExtensions.Controls
         #region pointer events
         private void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("PointerEntered");
+            //System.Diagnostics.Debug.WriteLine("PointerEntered");
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
-            {
                 root.CapturePointer(e.Pointer);
 
-            }
             PointerProcessor(e.Pointer);
+            e.Handled = true;
         }
 
         private void Element_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("PointerExited");
+            //System.Diagnostics.Debug.WriteLine("PointerExited");
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
-            {
                 root.ReleasePointerCapture(e.Pointer);
 
-            }
             PointerProcessor(e.Pointer);
+            e.Handled = true;
         }
 
         private void Element_PointerCanceled(object sender, PointerRoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("PointerCanceled");
+            //System.Diagnostics.Debug.WriteLine("PointerCanceled");
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
-            {
                 root.ReleasePointerCapture(e.Pointer);
-            }
+
             PointerProcessor(e.Pointer);
+            e.Handled = true;
         }
         #endregion
 
@@ -156,7 +160,7 @@ namespace MPCExtensions.Controls
         {
             try
             {
-                inker.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Pen;
+                inker.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Pen;// | Windows.UI.Core.CoreInputDeviceTypes.Mouse;
 
                 var drawingAttributes = new InkDrawingAttributes();
 
@@ -179,18 +183,18 @@ namespace MPCExtensions.Controls
 
         private void PointerProcessor(Pointer pointer)
         {
-            System.Diagnostics.Debug.WriteLine("PointerProcessor");
+            //System.Diagnostics.Debug.WriteLine("PointerProcessor");
             try
             {
                 if (pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen && container.Visibility == Visibility.Collapsed)
                 {
                     // enable Inker
                     container.Visibility = Visibility.Visible;
-                    System.Diagnostics.Debug.WriteLine("PointerProcessor_enable");
+                    //System.Diagnostics.Debug.WriteLine("PointerProcessor_enable");
                 }
                 else if (pointer.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Pen && container.Visibility == Visibility.Visible)
                 {
-                    System.Diagnostics.Debug.WriteLine("PointerProcessor_diable");
+                    //System.Diagnostics.Debug.WriteLine("PointerProcessor_diable");
                     // disable Inker
                     timer.Stop();
                     container.Visibility = Visibility.Collapsed;
@@ -204,20 +208,20 @@ namespace MPCExtensions.Controls
 
         private void InkPresenter_StrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
-            System.Diagnostics.Debug.WriteLine("InkPresenter_StrokesCollected");
+            //System.Diagnostics.Debug.WriteLine("InkPresenter_StrokesCollected");
             timer.Start();
         }
 
         private async void Timer_Tick(object sender, object e)
         {
-            System.Diagnostics.Debug.WriteLine("Timer_Tick");
+            //System.Diagnostics.Debug.WriteLine("Timer_Tick");
             timer.Stop();
             await RecognizeInkerText();
         }
 
         private async Task RecognizeInkerText()
         {
-            System.Diagnostics.Debug.WriteLine("RecognizeInkerText");
+            //System.Diagnostics.Debug.WriteLine("RecognizeInkerText");
             try
             {
                 var inkRecognizer = new InkRecognizerContainer();

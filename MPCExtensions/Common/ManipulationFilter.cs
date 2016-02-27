@@ -11,9 +11,9 @@ namespace MPCExtensions.Common
     /// </summary>
     internal class ManipulationFilter
     {
-        private static float TargetMinSize = 100F;
-        private static float TargetMaxSize = 10000F;
-        private static float TargetMinInside = 50F;
+        private static float TargetMinSize = 150F;
+        private static float TargetMaxSize = 1000F;
+        private static float TargetMinInside = 90F;
 
         /// <summary>
         /// Implementation of <see cref="FilterManipulation"/> that forces the rotation to be about

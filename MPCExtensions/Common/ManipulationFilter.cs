@@ -12,7 +12,7 @@ namespace MPCExtensions.Common
     internal class ManipulationFilter
     {
         private static float TargetMinSize = 150F;
-        private static float TargetMaxSize = 1000F;
+        private static float TargetMaxSize = 10000F;
         private static float TargetMinInside = 90F;
 
         /// <summary>

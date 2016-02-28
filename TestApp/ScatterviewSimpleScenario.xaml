@@ -1,4 +1,4 @@
-﻿<Page
+﻿<UserControl
     x:Class="TestApp.ScatterviewSimpleScenario"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -26,4 +26,4 @@
             </controls:ScatterView.ItemTemplate>-->
         </controls:ScatterView>
     </Grid>
-</Page>
+</UserControl>

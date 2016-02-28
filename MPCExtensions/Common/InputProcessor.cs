@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace MPCExtensions.Common
@@ -87,35 +88,45 @@ namespace MPCExtensions.Common
             //_target.PointerReleased += OnPointerReleased;
             //_target.PointerWheelChanged += OnPointerWheelChanged;
 
-            _target.PointerCanceled += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            {
-                EventAction = (instance, source, eventArgs) => OnPointerCanceled(source, eventArgs),
-                DetachAction = (instance, weakEventListener) => _target.PointerCanceled -= weakEventListener.Handler
-            }.Handler; 
+            //_target.AddHandler(UIElement.PointerEnteredEvent, new PointerEventHandler(OnPointerEntered), false);
+            //_target.AddHandler(UIElement.PointerExitedEvent, new PointerEventHandler(OnPPointerExited), false);
+            _target.AddHandler(UIElement.PointerCanceledEvent, new PointerEventHandler(OnPointerCanceled), false);
+            _target.AddHandler(UIElement.PointerMovedEvent, new PointerEventHandler(OnPointerMoved), false);
+            _target.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(OnPointerPressed), false);
+            _target.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(OnPointerReleased), false);
+            _target.AddHandler(UIElement.PointerWheelChangedEvent, new PointerEventHandler(OnPointerWheelChanged), false);
+            //_target.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(OnPointerCaptureLost), false);
 
-            _target.PointerMoved += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            {
-                EventAction = (instance, source, eventArgs) => OnPointerMoved(source, eventArgs),
-                DetachAction = (instance, weakEventListener) => _target.PointerMoved -= weakEventListener.Handler
-            }.Handler;
 
-            _target.PointerPressed += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            {
-                EventAction = (instance, source, eventArgs) => OnPointerPressed(source, eventArgs),
-                DetachAction = (instance, weakEventListener) => _target.PointerPressed -= weakEventListener.Handler
-            }.Handler;
+            //_target.PointerCanceled += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
+            //{
+            //    EventAction = (instance, source, eventArgs) => OnPointerCanceled(source, eventArgs),
+            //    DetachAction = (instance, weakEventListener) => _target.PointerCanceled -= weakEventListener.Handler
+            //}.Handler; 
 
-            _target.PointerReleased += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            {
-                EventAction = (instance, source, eventArgs) => OnPointerReleased(source, eventArgs),
-                DetachAction = (instance, weakEventListener) => _target.PointerReleased -= weakEventListener.Handler
-            }.Handler; 
+            //_target.PointerMoved += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
+            //{
+            //    EventAction = (instance, source, eventArgs) => OnPointerMoved(source, eventArgs),
+            //    DetachAction = (instance, weakEventListener) => _target.PointerMoved -= weakEventListener.Handler
+            //}.Handler;
 
-            _target.PointerWheelChanged += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            {
-                EventAction = (instance, source, eventArgs) => OnPointerWheelChanged(source, eventArgs),
-                DetachAction = (instance, weakEventListener) => _target.PointerWheelChanged -= weakEventListener.Handler
-            }.Handler;
+            //_target.PointerPressed += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
+            //{
+            //    EventAction = (instance, source, eventArgs) => OnPointerPressed(source, eventArgs),
+            //    DetachAction = (instance, weakEventListener) => _target.PointerPressed -= weakEventListener.Handler
+            //}.Handler;
+
+            //_target.PointerReleased += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
+            //{
+            //    EventAction = (instance, source, eventArgs) => OnPointerReleased(source, eventArgs),
+            //    DetachAction = (instance, weakEventListener) => _target.PointerReleased -= weakEventListener.Handler
+            //}.Handler; 
+
+            //_target.PointerWheelChanged += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
+            //{
+            //    EventAction = (instance, source, eventArgs) => OnPointerWheelChanged(source, eventArgs),
+            //    DetachAction = (instance, weakEventListener) => _target.PointerWheelChanged -= weakEventListener.Handler
+            //}.Handler;
 
             // Create the gesture recognizer
             _gestureRecognizer = new Windows.UI.Input.GestureRecognizer();
@@ -129,6 +140,22 @@ namespace MPCExtensions.Common
 
         #region Pointer event handlers
         public static int i = 100;
+        private void OnPointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+        {
+            _gestureRecognizer.CompleteGesture();
+
+            // Release pointer capture on the pointer associated to this event
+            _target.ReleasePointerCapture(args.Pointer);
+            args.Handled = true;
+        }
+        private void OnPointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+        {
+            args.Handled = true;
+        }
+        private void OnPPointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+        {
+            args.Handled = true;
+        }
         private void OnPointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
         {
             if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)

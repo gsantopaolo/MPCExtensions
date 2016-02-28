@@ -69,18 +69,18 @@ namespace MPCExtensions.Common
             if (scale)
             {
                 settings |= Windows.UI.Input.GestureSettings.ManipulationScale;
-                if (inertia)
-                {
-                    settings |= Windows.UI.Input.GestureSettings.ManipulationScaleInertia;
-                }
+                //if (inertia)
+                //{
+                //    settings |= Windows.UI.Input.GestureSettings.ManipulationScaleInertia;
+                //}
             }
             if (rotate)
             {
                 settings |= Windows.UI.Input.GestureSettings.ManipulationRotate;
-                if (inertia)
-                {
-                    settings |= Windows.UI.Input.GestureSettings.ManipulationRotateInertia;
-                }
+                //if (inertia)
+                //{
+                //    settings |= Windows.UI.Input.GestureSettings.ManipulationRotateInertia;
+                //}
             }
             if (translate)
             {

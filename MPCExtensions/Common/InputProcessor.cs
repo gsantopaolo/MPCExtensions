@@ -28,8 +28,6 @@ namespace MPCExtensions.Common
             }
             return default(T);
         }
-
-        
     }
 
     /// <summary>
@@ -88,12 +86,18 @@ namespace MPCExtensions.Common
             //_target.PointerReleased += OnPointerReleased;
             //_target.PointerWheelChanged += OnPointerWheelChanged;
 
+            _target.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(OnPointerPressed), false);
+            _target.AddHandler(UIElement.PointerMovedEvent, new PointerEventHandler(OnPointerMoved), false);
+
+            //PointerReleased is never raised, then a PointerCanceled or PointerCaptureLos
             //_target.AddHandler(UIElement.PointerEnteredEvent, new PointerEventHandler(OnPointerEntered), false);
             //_target.AddHandler(UIElement.PointerExitedEvent, new PointerEventHandler(OnPPointerExited), false);
-            _target.AddHandler(UIElement.PointerCanceledEvent, new PointerEventHandler(OnPointerCanceled), false);
-            _target.AddHandler(UIElement.PointerMovedEvent, new PointerEventHandler(OnPointerMoved), false);
-            _target.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(OnPointerPressed), false);
             _target.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(OnPointerReleased), false);
+
+            _target.AddHandler(UIElement.PointerCanceledEvent, new PointerEventHandler(OnPointerCanceled), false);
+            //_target.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(OnPointerCanceled), false);
+
+
             _target.AddHandler(UIElement.PointerWheelChangedEvent, new PointerEventHandler(OnPointerWheelChanged), false);
             //_target.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(OnPointerCaptureLost), false);
 
@@ -140,22 +144,22 @@ namespace MPCExtensions.Common
 
         #region Pointer event handlers
         public static int i = 100;
-        private void OnPointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            _gestureRecognizer.CompleteGesture();
+        //private void OnPointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+        //{
+        //    _gestureRecognizer.CompleteGesture();
 
-            // Release pointer capture on the pointer associated to this event
-            _target.ReleasePointerCapture(args.Pointer);
-            args.Handled = true;
-        }
-        private void OnPointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            args.Handled = true;
-        }
-        private void OnPPointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            args.Handled = true;
-        }
+        //    // Release pointer capture on the pointer associated to this event
+        //    _target.ReleasePointerCapture(args.Pointer);
+        //    args.Handled = true;
+        //}
+        //private void OnPointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+        //{
+        //    args.Handled = true;
+        //}
+        //private void OnPPointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+        //{
+        //    args.Handled = true;
+        //}
         private void OnPointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
         {
             if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
@@ -279,11 +283,10 @@ namespace MPCExtensions.Common
 
             // Release pointer capture on the pointer associated to this event
             _target.ReleasePointerCapture(args.Pointer);
-
+            _target.Opacity = 1;
             // Mark event handled, to prevent execution of default event handlers
             args.Handled = true;
 
-            
         }
 
         #endregion Pointer event handlers

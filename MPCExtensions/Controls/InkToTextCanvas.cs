@@ -114,6 +114,8 @@ namespace MPCExtensions.Controls
 
                     //contentPresenter.PointerReleased += Element_PointerCanceled;
                     contentPresenter.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(Element_PointerCanceled), true);
+
+                    //PointerReleased is never raised, then a PointerCanceled or PointerCaptureLos
                 }
             }
             catch (Exception ex)

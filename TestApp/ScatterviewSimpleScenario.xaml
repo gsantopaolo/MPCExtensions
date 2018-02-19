@@ -18,12 +18,6 @@
                     <Button Width="50" Height="50"/>
                 </Grid>
             </controls:ScatterView.Items>
-            <!--<controls:ScatterView.ItemTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <Image Source="{x:Bind }"  />
-
-                </DataTemplate>
-            </controls:ScatterView.ItemTemplate>-->
         </controls:ScatterView>
     </Grid>
 </UserControl>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPCExtensions", "MPCExtensions\MPCExtensions.csproj", "{4E08276F-2ECC-49FD-80B0-53516B5EC0A4}"
 EndProject
@@ -37,6 +37,7 @@ Global
 		{4E08276F-2ECC-49FD-80B0-53516B5EC0A4}.Release|x86.Build.0 = Release|x86
 		{19B9BC03-2174-41ED-BB93-90A80672D99E}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{19B9BC03-2174-41ED-BB93-90A80672D99E}.Debug|Any CPU.Build.0 = Debug|x86
+		{19B9BC03-2174-41ED-BB93-90A80672D99E}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{19B9BC03-2174-41ED-BB93-90A80672D99E}.Debug|ARM.ActiveCfg = Debug|ARM
 		{19B9BC03-2174-41ED-BB93-90A80672D99E}.Debug|ARM.Build.0 = Debug|ARM
 		{19B9BC03-2174-41ED-BB93-90A80672D99E}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -59,5 +60,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A5933C6-BB99-4653-A640-287877201B03}
 	EndGlobalSection
 EndGlobal

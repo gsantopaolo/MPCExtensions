@@ -7,66 +7,66 @@ using Windows.UI.ViewManagement;
 
 namespace MPCExtensions.Common
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public static class InteractionCapabilityHelper
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static InteractionCapability GetForCurrentView()
-        {
-            InteractionCapability retVal;
+	/// <summary>
+	/// 
+	/// </summary>
+	public static class InteractionCapabilityHelper
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public static InteractionCapability GetForCurrentView()
+		{
+			InteractionCapability retVal;
 
-            UserInteractionMode interactionMode = UIViewSettings.GetForCurrentView().UserInteractionMode;
+			UserInteractionMode interactionMode = UIViewSettings.GetForCurrentView().UserInteractionMode;
 
-            if (DeviceFamily == DeviceFamily.Team)
-                retVal = InteractionCapability.MultiUserMultitouch;
-            else if (DeviceFamily == DeviceFamily.Desktop && interactionMode == UserInteractionMode.Mouse)
-                retVal = InteractionCapability.MouseAndKeyboard;
-            else
-                retVal = InteractionCapability.SingleUserMultitouch;
+			if (DeviceFamily == DeviceFamily.Team)
+				retVal = InteractionCapability.MultiUserMultitouch;
+			else if (DeviceFamily == DeviceFamily.Desktop && interactionMode == UserInteractionMode.Mouse)
+				retVal = InteractionCapability.MouseAndKeyboard;
+			else
+				retVal = InteractionCapability.SingleUserMultitouch;
 
-            return retVal;
-        }
+			return retVal;
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static DeviceFamily DeviceFamily
-        {
-            get
-            {
-                DeviceFamily retVal = DeviceFamily.Unknown;
+		/// <summary>
+		/// 
+		/// </summary>
+		public static DeviceFamily DeviceFamily
+		{
+			get
+			{
+				DeviceFamily retVal = DeviceFamily.Unknown;
 
-                var deviceFamily = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+				var deviceFamily = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
 
-                switch (deviceFamily)
-                {
-                    case "Windows.Mobile":
-                        retVal = DeviceFamily.Mobile;
-                        break;
-                    case "Windows.Desktop":
-                        retVal = DeviceFamily.Desktop;
-                        break;
-                    case "Windows.Team":
-                        retVal = DeviceFamily.Team;
-                        break;
-                    case "Windows.IoT":
-                        retVal = DeviceFamily.IoT;
-                        break;
-                    case "Windows.Xbox":
-                        retVal = DeviceFamily.Xbox;
-                        break;
-                    default:
-                        retVal = DeviceFamily.Unknown;
-                        break;
-                }
+				switch (deviceFamily)
+				{
+					case "Windows.Mobile":
+						retVal = DeviceFamily.Mobile;
+						break;
+					case "Windows.Desktop":
+						retVal = DeviceFamily.Desktop;
+						break;
+					case "Windows.Team":
+						retVal = DeviceFamily.Team;
+						break;
+					case "Windows.IoT":
+						retVal = DeviceFamily.IoT;
+						break;
+					case "Windows.Xbox":
+						retVal = DeviceFamily.Xbox;
+						break;
+					default:
+						retVal = DeviceFamily.Unknown;
+						break;
+				}
 
-                return retVal;
-            }
-        }
-    }
+				return retVal;
+			}
+		}
+	}
 }

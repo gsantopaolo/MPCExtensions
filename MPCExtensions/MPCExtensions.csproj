@@ -11,11 +11,12 @@
     <AssemblyName>MPCExtensions</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -108,18 +109,59 @@
     <None Include="mpcextensions.snk" />
     <None Include="Nuget\Build.cmd" />
     <None Include="Nuget\MPCExtensions.nuspec" />
-    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\InteractiveElementBinder.cs" />
     <Compile Include="Common\AudioCapturePermissions.cs" />
     <Compile Include="Common\DeviceFamily.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\FilterManipulationEventArgs.cs" />
     <Compile Include="Common\VisualTreeHelperEx.cs" />
-    <Compile Include="Controls\InkToTextCanvas.cs" />
+    <Compile Include="Controls\AreaZoomEventArgs.cs" />
+    <Compile Include="Controls\ConnectableViewItem.cs" />
+    <Compile Include="Controls\GridLibrary.cs" />
+    <Compile Include="Controls\InkToTextBox.cs" />
+    <Compile Include="Controls\InteractiveItem.cs" />
+    <Compile Include="Controls\Library.cs" />
+    <Compile Include="Controls\ManipulationFilterType.cs" />
+    <Compile Include="Controls\MiniMap.xaml.cs">
+      <DependentUpon>MiniMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScatterViewItem.cs" />
     <Compile Include="Controls\VoiceToTextBox.cs" />
     <Compile Include="Common\WeakEvent.cs" />
     <Compile Include="Common\InputProcessor.cs" />
     <Compile Include="Common\ManipulationFilter.cs" />
     <Compile Include="Common\ManipulationManager.cs" />
+    <Compile Include="Controls\Zoom.cs" />
+    <Compile Include="Controls\ZoomFactorChangedEventArgs.cs" />
+    <Compile Include="Controls\ZoomType.cs" />
+    <Compile Include="Helpers\RectHelper.cs" />
+    <Compile Include="Helpers\UiUtility.cs" />
+    <Compile Include="Helpers\YouTube.cs" />
+    <Compile Include="Infrastructure\Diagram\ConnectionType.cs" />
+    <Compile Include="Infrastructure\Diagram\ConnectorInfo.cs" />
+    <Compile Include="Infrastructure\Diagram\ConnectorOrientation.cs" />
+    <Compile Include="Infrastructure\Diagram\DiagramConnection.cs" />
+    <Compile Include="Infrastructure\Diagram\DiagramConnectionEditOperation.cs" />
+    <Compile Include="Infrastructure\Diagram\IInteractiveDiagramElement.cs" />
+    <Compile Include="Infrastructure\Diagram\PathFinder.cs" />
+    <Compile Include="Infrastructure\Diagram\RoutingMode.cs" />
+    <Compile Include="Infrastructure\Diagram\ScatterViewDiagramManager.cs" />
+    <Compile Include="Infrastructure\Diagram\TileConnection.cs" />
+    <Compile Include="Infrastructure\Entities\AskConfirmContext.cs" />
+    <Compile Include="Infrastructure\HitTestInfo.cs" />
+    <Compile Include="Infrastructure\HostContext.cs" />
+    <Compile Include="Infrastructure\IDragSource.cs" />
+    <Compile Include="Infrastructure\IDropTarget.cs" />
+    <Compile Include="Infrastructure\IInteractiveElement.cs" />
+    <Compile Include="Infrastructure\InteractiveGroup.cs" />
+    <Compile Include="Infrastructure\InteractiveGroupCoordinator.cs" />
+    <Compile Include="Infrastructure\IZoomable.cs" />
+    <Compile Include="Infrastructure\PinchToZoomRecognizer.cs" />
+    <Compile Include="Infrastructure\TileGroupingInfoEventArgs.cs" />
+    <Compile Include="Infrastructure\UpdateUiInfo.cs" />
+    <Compile Include="Infrastructure\UpdateUiOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\ScatterView.cs" />
     <Compile Include="Common\InteractionCapability.cs" />
@@ -128,6 +170,10 @@
     <EmbeddedResource Include="Properties\TeamFamilyControls.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\MiniMap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,6 +181,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Nuget\TextFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="WindowsAppStudio.Uwp">
+      <Version>1.5.3</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

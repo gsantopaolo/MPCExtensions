@@ -93,6 +93,9 @@ namespace MPCExtensions.Common
                         foundChild = (T)child;
                         break;
                     }
+                    else
+                        // recursively drill down the tree      
+                        foundChild = FindChild<T>(child, childName);
                 }
                 else
                 {

@@ -11,288 +11,238 @@ using Windows.UI.Xaml.Media;
 
 namespace MPCExtensions.Common
 {
-    public static class helper
-    {
-        public static T FindVisualParent<T>(this FrameworkElement obj) where T : FrameworkElement
-        {
-            if (obj != null)
-            {
-                for (DependencyObject obj2 = VisualTreeHelper.GetParent(obj); obj2 != null; obj2 = VisualTreeHelper.GetParent(obj2))
-                {
-                    T local = obj2 as T;
-                    if (local != null)
-                    {
-                        return local;
-                    }
-                }
-            }
-            return default(T);
-        }
-    }
-
-    /// <summary>
-    /// Thin wrapper around the <see cref="Windows.UI.Input.GestureRecognizer"/>, routes pointer events received by
-    /// the manipulation target to the gesture recognizer.
-    /// </summary>
-    /// <remarks>
-    /// Transformations during manipulations cannot be expressed in the coordinate space of the manipulation target.
-    /// Instead they need be expressed with respect to a reference coordinate space, usually an ancestor (in the UI tree)
-    /// of the element being manipulated.
-    /// </remarks>
-    internal abstract class InputProcessor
-    {
-        protected Windows.UI.Input.GestureRecognizer _gestureRecognizer;
-
-        // Element being manipulated
-        protected Windows.UI.Xaml.FrameworkElement _target;
-        public Windows.UI.Xaml.FrameworkElement Target
-        {
-            get { return _target; }
-        }
-
-        // Reference element that contains the coordinate space used for expressing transformations 
-        // during manipulation, usually the parent element of Target in the UI tree
-        protected Windows.UI.Xaml.Controls.Canvas _reference;
-        public Canvas Reference
-        {
-            get { return _reference; }
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="element">
-        /// Manipulation target.
-        /// </param>
-        /// <param name="reference">
-        /// Element that contains the coordinate space used for expressing transformations
-        /// during manipulations, usually the parent element of Target in the UI tree.
-        /// </param>
-        /// <remarks>
-        /// Transformations during manipulations cannot be expressed in the coordinate space of the manipulation target.
-        /// Thus <paramref name="element"/> and <paramref name="reference"/> must be different. Usually <paramref name="reference"/>
-        /// will be an ancestor of <paramref name="element"/> in the UI tree.
-        /// </remarks>
-        internal InputProcessor(Windows.UI.Xaml.FrameworkElement element, Windows.UI.Xaml.Controls.Canvas reference)
-        {
-            _target = element;
-            _reference = reference;
-
-            // Setup pointer event handlers for the element.
-            // They are used to feed the gesture recognizer.    
-            //_target.PointerCanceled += OnPointerCanceled;
-            //_target.PointerMoved += OnPointerMoved;
-            //_target.PointerPressed += OnPointerPressed;
-            //_target.PointerReleased += OnPointerReleased;
-            //_target.PointerWheelChanged += OnPointerWheelChanged;
-
-            _target.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(OnPointerPressed), false);
-            _target.AddHandler(UIElement.PointerMovedEvent, new PointerEventHandler(OnPointerMoved), false);
-
-            //PointerReleased is never raised, then a PointerCanceled or PointerCaptureLos
-            //_target.AddHandler(UIElement.PointerEnteredEvent, new PointerEventHandler(OnPointerEntered), false);
-            //_target.AddHandler(UIElement.PointerExitedEvent, new PointerEventHandler(OnPPointerExited), false);
-            _target.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(OnPointerReleased), false);
-
-            _target.AddHandler(UIElement.PointerCanceledEvent, new PointerEventHandler(OnPointerCanceled), false);
-            //_target.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(OnPointerCanceled), false);
+	public static class helper
+	{
+		public static T FindVisualParent<T>(this FrameworkElement obj) where T : FrameworkElement
+		{
+			if (obj != null)
+			{
+				for (DependencyObject obj2 = VisualTreeHelper.GetParent(obj); obj2 != null; obj2 = VisualTreeHelper.GetParent(obj2))
+				{
+					T local = obj2 as T;
+					if (local != null)
+					{
+						return local;
+					}
+				}
+			}
+			return default(T);
+		}
 
 
-            _target.AddHandler(UIElement.PointerWheelChangedEvent, new PointerEventHandler(OnPointerWheelChanged), false);
-            //_target.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(OnPointerCaptureLost), false);
+	}
+
+	/// <summary>
+	/// Thin wrapper around the <see cref="Windows.UI.Input.GestureRecognizer"/>, routes pointer events received by
+	/// the manipulation target to the gesture recognizer.
+	/// </summary>
+	/// <remarks>
+	/// Transformations during manipulations cannot be expressed in the coordinate space of the manipulation target.
+	/// Instead they need be expressed with respect to a reference coordinate space, usually an ancestor (in the UI tree)
+	/// of the element being manipulated.
+	/// </remarks>
+	internal abstract class InputProcessor
+	{
+		protected Windows.UI.Input.GestureRecognizer _gestureRecognizer;
+
+		// Element being manipulated
+		protected Windows.UI.Xaml.FrameworkElement _target;
+		public Windows.UI.Xaml.FrameworkElement Target
+		{
+			get { return _target; }
+		}
+
+		/// <summary>
+		/// Gets or sets the selection opacity.
+		/// </summary>
+		/// <value>
+		/// The selection opacity.
+		/// </value>
+		public double SelectionOpacity { get; set; } = 0.75;
+
+		// Host element that contains the coordinate space used for expressing transformations 
+		// during manipulation, usually the parent element of Target in the UI tree
+		protected Windows.UI.Xaml.Controls.Canvas _reference;
+		public Canvas Reference
+		{
+			get { return _reference; }
+		}
+
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="element">
+		/// Manipulation target.
+		/// </param>
+		/// <param name="reference">
+		/// Element that contains the coordinate space used for expressing transformations
+		/// during manipulations, usually the parent element of Target in the UI tree.
+		/// </param>
+		/// <remarks>
+		/// Transformations during manipulations cannot be expressed in the coordinate space of the manipulation target.
+		/// Thus <paramref name="element"/> and <paramref name="reference"/> must be different. Usually <paramref name="reference"/>
+		/// will be an ancestor of <paramref name="element"/> in the UI tree.
+		/// </remarks>
+		internal InputProcessor(Windows.UI.Xaml.FrameworkElement element, Windows.UI.Xaml.Controls.Canvas reference)
+		{
+			_target = element;
+			_reference = reference;
 
 
-            //_target.PointerCanceled += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            //{
-            //    EventAction = (instance, source, eventArgs) => OnPointerCanceled(source, eventArgs),
-            //    DetachAction = (instance, weakEventListener) => _target.PointerCanceled -= weakEventListener.Handler
-            //}.Handler; 
+			_target.AddHandler(UIElement.PointerCanceledEvent, new PointerEventHandler(OnPointerCanceled), true);
+			_target.AddHandler(UIElement.PointerCaptureLostEvent, new PointerEventHandler(OnPointerCaptureLost), true);
+			_target.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler(OnPointerReleased), true);
+			_target.AddHandler(UIElement.PointerExitedEvent, new PointerEventHandler(OnPointerExited), true);
+			_target.AddHandler(UIElement.PointerMovedEvent, new PointerEventHandler(OnPointerMoved), true);
+			_target.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(OnPointerPressed), true);
+			_target.AddHandler(UIElement.PointerWheelChangedEvent, new PointerEventHandler(OnPointerWheelChanged), true);
 
-            //_target.PointerMoved += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            //{
-            //    EventAction = (instance, source, eventArgs) => OnPointerMoved(source, eventArgs),
-            //    DetachAction = (instance, weakEventListener) => _target.PointerMoved -= weakEventListener.Handler
-            //}.Handler;
+			// Create the gesture recognizer
+			_gestureRecognizer = new Windows.UI.Input.GestureRecognizer();
+			_gestureRecognizer.GestureSettings = Windows.UI.Input.GestureSettings.None;
 
-            //_target.PointerPressed += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            //{
-            //    EventAction = (instance, source, eventArgs) => OnPointerPressed(source, eventArgs),
-            //    DetachAction = (instance, weakEventListener) => _target.PointerPressed -= weakEventListener.Handler
-            //}.Handler;
+		}
 
-            //_target.PointerReleased += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            //{
-            //    EventAction = (instance, source, eventArgs) => OnPointerReleased(source, eventArgs),
-            //    DetachAction = (instance, weakEventListener) => _target.PointerReleased -= weakEventListener.Handler
-            //}.Handler; 
+		#region Pointer event handlers
+		private void OnPointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+		{
+			if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen) return;
 
-            //_target.PointerWheelChanged += new WeakEvent<UIElement, object, Windows.UI.Xaml.Input.PointerRoutedEventArgs>(_target)
-            //{
-            //    EventAction = (instance, source, eventArgs) => OnPointerWheelChanged(source, eventArgs),
-            //    DetachAction = (instance, weakEventListener) => _target.PointerWheelChanged -= weakEventListener.Handler
-            //}.Handler;
+			_target.Opacity = this.SelectionOpacity;
 
-            // Create the gesture recognizer
-            _gestureRecognizer = new Windows.UI.Input.GestureRecognizer();
-            _gestureRecognizer.GestureSettings = Windows.UI.Input.GestureSettings.None;
-        }
+			var indexes = new List<int>();
+			Panel panel = _target.FindVisualParent<Panel>();
+			if (panel != null)
+			{
+				foreach (UIElement element in panel.Children)
+				{
+					if (element != _target as UIElement)
+					{
+						indexes.Add(Canvas.GetZIndex(element));
+					}
+				}
 
-        private void _target_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
-        {
-            _target.Opacity = 1;
-        }
+				Int16 currentIndex = 0;
+				if (indexes.Count > 0 && indexes.Max() < Int16.MaxValue)
+				{
+					currentIndex = (Int16)indexes.Max();
+					ContentPresenter presenter = _target as ContentPresenter;
+					if (presenter != null)
+					{
+						presenter.SetValue(Canvas.ZIndexProperty, indexes.Max() + 1);
+					}
+				}
+				else if (indexes.Count > 0 && indexes.Max() >= Int16.MaxValue)
+				{
+					// Need to rearrange all ZIndexs!
+					var result = panel.Children.OrderBy(x => Canvas.GetZIndex(x));
+					Int16 count = 0;
+					foreach (UIElement element in result)
+					{
+						if (element != _target as UIElement)
+							element.SetValue(Canvas.ZIndexProperty, count);
+						count++;
+					}
+					//at the end we set the ZIndex of our element as the highest
+					ContentPresenter presenter = _target as ContentPresenter;
+					if (presenter != null)
+					{
+						presenter.SetValue(Canvas.ZIndexProperty, count);
+					}
+				}
+			}
 
-        #region Pointer event handlers
-        public static int i = 100;
-        //private void OnPointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        //{
-        //    _gestureRecognizer.CompleteGesture();
+			// Obtain current point in the coordinate system of the reference element
+			Windows.UI.Input.PointerPoint currentPoint = args.GetCurrentPoint(_reference);
 
-        //    // Release pointer capture on the pointer associated to this event
-        //    _target.ReleasePointerCapture(args.Pointer);
-        //    args.Handled = true;
-        //}
-        //private void OnPointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        //{
-        //    args.Handled = true;
-        //}
-        //private void OnPPointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        //{
-        //    args.Handled = true;
-        //}
-        private void OnPointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
-                return;
+			// Route the event to the gesture recognizer
+			_gestureRecognizer.ProcessDownEvent(currentPoint);
 
-            _target.Opacity = 0.5;
-           
-                        
-            var indexes = new List<int>();
-            Panel panel = _target.FindVisualParent<Panel>();
-            if (panel != null)
-            {
-                foreach (UIElement element in panel.Children)
-                {
-                    if (element != _target as UIElement)
-                    {
-                        indexes.Add(Canvas.GetZIndex(element));
-                    }
-                }
+			// Capture the pointer associated to this event
+			_target.CapturePointer(args.Pointer);
 
-                Int16 currentIndex = 0;
-                if (indexes.Count > 0 && indexes.Max() < Int16.MaxValue)
-                {
-                    currentIndex = (Int16)indexes.Max();
-                    ContentPresenter presenter = _target as ContentPresenter;
-                    if (presenter != null)
-                    {
-                        presenter.SetValue(Canvas.ZIndexProperty, indexes.Max() + 1);
-                    }
-                }
-                else if (indexes.Count > 0 && indexes.Max() >= Int16.MaxValue)
-                {
-                    // Need to rearrange all ZIndexs!
-                    var result = panel.Children.OrderBy(x => Canvas.GetZIndex(x));
-                    Int16 count = 0;
-                    foreach (UIElement element in result)
-                    {
-                        if (element != _target as UIElement)
-                            element.SetValue(Canvas.ZIndexProperty, count);
-                        count++;
-                    }
-                    //at the end we set the ZIndex of our element as the highest
-                    ContentPresenter presenter = _target as ContentPresenter;
-                    if (presenter != null)
-                    {
-                        presenter.SetValue(Canvas.ZIndexProperty, count);
-                    }
-                }
-            }
+			// Mark event handled, to prevent execution of default event handlers
+			args.Handled = true;
+		}
 
-            // Obtain current point in the coordinate system of the reference element
-            Windows.UI.Input.PointerPoint currentPoint = args.GetCurrentPoint(_reference);
+		private void OnPointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+		{
+			if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+				return;
+			// Route the events to the gesture recognizer.
+			// All intermediate points are passed to the gesture recognizer in
+			// the coordinate system of the reference element.
+			_gestureRecognizer.ProcessMoveEvents(args.GetIntermediatePoints(_reference));
 
-            // Route the event to the gesture recognizer
-            _gestureRecognizer.ProcessDownEvent(currentPoint);
+			// Mark event handled, to prevent execution of default event handlers
+			args.Handled = true;
 
-            // Capture the pointer associated to this event
-            _target.CapturePointer(args.Pointer);
+		}
 
-            // Mark event handled, to prevent execution of default event handlers
-            args.Handled = true;
-        }
+		private void OnPointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+		{
+			if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+				return;
+			// Obtain current point in the coordinate system of the reference element
+			Windows.UI.Input.PointerPoint currentPoint = args.GetCurrentPoint(_reference);
 
-        private void OnPointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
-                return;
-            // Route the events to the gesture recognizer.
-            // All intermediate points are passed to the gesture recognizer in
-            // the coordinate system of the reference element.
-            _gestureRecognizer.ProcessMoveEvents(args.GetIntermediatePoints(_reference));
+			// Route the event to the gesture recognizer
+			_gestureRecognizer.ProcessUpEvent(currentPoint);
 
-            // Mark event handled, to prevent execution of default event handlers
-            args.Handled = true;
-            
-        }
+			// Release pointer capture on the pointer associated to this event
+			_target.ReleasePointerCapture(args.Pointer);
 
-        private void OnPointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
-                return;
-            // Obtain current point in the coordinate system of the reference element
-            Windows.UI.Input.PointerPoint currentPoint = args.GetCurrentPoint(_reference);
+			_target.Opacity = 1;
 
-            // Route the event to the gesture recognizer
-            _gestureRecognizer.ProcessUpEvent(currentPoint);
+			// Mark event handled, to prevent execution of default event handlers
+			args.Handled = true;
+		}
 
-            // Release pointer capture on the pointer associated to this event
-            _target.ReleasePointerCapture(args.Pointer);
+		private void OnPointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+		{
+			// Obtain current point in the coordinate system of the reference element
+			Windows.UI.Input.PointerPoint currentPoint = args.GetCurrentPoint(_reference);
 
-            _target.Opacity = 1;
+			// Find out whether shift/ctrl buttons are pressed
+			bool shift = (args.KeyModifiers & Windows.System.VirtualKeyModifiers.Shift) == Windows.System.VirtualKeyModifiers.Shift;
+			bool ctrl = (args.KeyModifiers & Windows.System.VirtualKeyModifiers.Control) == Windows.System.VirtualKeyModifiers.Control;
 
-            // Mark event handled, to prevent execution of default event handlers
-            args.Handled = true;
+			// Route the event to the gesture recognizer
+			_gestureRecognizer.ProcessMouseWheelEvent(currentPoint, shift, ctrl);
 
-            
-        }
+			// Mark event handled, to prevent execution of default event handlers
+			args.Handled = true;
+		}
 
-        private void OnPointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            // Obtain current point in the coordinate system of the reference element
-            Windows.UI.Input.PointerPoint currentPoint = args.GetCurrentPoint(_reference);
+		private void OnPointerCanceled(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+		{
+			if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
+				return;
 
-            // Find out whether shift/ctrl buttons are pressed
-            bool shift = (args.KeyModifiers & Windows.System.VirtualKeyModifiers.Shift) == Windows.System.VirtualKeyModifiers.Shift;
-            bool ctrl = (args.KeyModifiers & Windows.System.VirtualKeyModifiers.Control) == Windows.System.VirtualKeyModifiers.Control;
+			_gestureRecognizer.CompleteGesture();
 
-            // Route the event to the gesture recognizer
-            _gestureRecognizer.ProcessMouseWheelEvent(currentPoint, shift, ctrl);
+			// Release pointer capture on the pointer associated to this event
+			_target.ReleasePointerCapture(args.Pointer);
 
-            // Mark event handled, to prevent execution of default event handlers
-            args.Handled = true;
-        }
+			// Mark event handled, to prevent execution of default event handlers
+			args.Handled = true;
+		}
 
-        private void OnPointerCanceled(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
-        {
-            if (args.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
-                return;
+		private void OnPointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+		{
+		}
 
-            _gestureRecognizer.CompleteGesture();
+		private void OnPointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs args)
+		{
+			_gestureRecognizer.CompleteGesture();
 
-            // Release pointer capture on the pointer associated to this event
-            _target.ReleasePointerCapture(args.Pointer);
-            _target.Opacity = 1;
-            // Mark event handled, to prevent execution of default event handlers
-            args.Handled = true;
+			// Release pointer capture on the pointer associated to this event
+			_target.ReleasePointerCapture(args.Pointer);
 
-        }
+			// Mark event handled, to prevent execution of default event handlers
+			args.Handled = true;
+		}
+		#endregion Pointer event handlers
+	}
 
-        #endregion Pointer event handlers
-    }
-
-
-
-    
 }

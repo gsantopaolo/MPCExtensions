@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="MPCExtensions.Controls.MiniMap"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:MPCExtensions.Controls"
+             xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+             mc:Ignorable="d"
+             x:Name="MiniMapRoot"
+             d:DesignHeight="300"
+             d:DesignWidth="400">
+    <UserControl.Resources>
+        <DataTemplate x:Key="DocumentZoomOut">
+            <Viewbox>
+                <Canvas Width="10240"
+                        Height="10240">
+                    <!--<Path Data="M5440,4800 5440,5440 3520,5440 3520,4800z"
+                      Fill="LightGray" />-->
+                    <Path Data="M6759 6494l1147 1147c125,125 125,328 0,453l-452 452c-125,125 -328,125 -453,0l-1147 -1147c-125,-125 -125,-328 0,-453l-262 -261c-313,224 -697,355 -1112,355 -1060,0 -1920,-860 -1920,-1920 0,-1060 860,-1920 1920,-1920 1060,0 1920,860 1920,1920 0,415 -131,799 -355,1112l261 262c125,-125 328,-125 453,0zm-2279 -2654c-707,0 -1280,573 -1280,1280 0,707 573,1280 1280,1280 707,0 1280,-573 1280,-1280 0,-707 -573,-1280 -1280,-1280z"
+                          Fill="#7F3199C3" />
+                    <Path Data="M1280 640l5230 0c352,0 656,126 905,375l1170 1170c249,249 375,553 375,905l0 6510 -7680 0 0 -8960zm5760 960l0 960 960 0 -960 -960zm-5120 -320l0 7680 6400 0 0 -5440c0,-176 -144,-320 -320,-320l-1600 0 0 -1600c0,-176 -144,-320 -320,-320l-4160 0z"
+                          Fill="#7F3199C3" />
+                </Canvas>
+            </Viewbox>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border BorderThickness="{Binding BorderThickness, ElementName=MiniMapRoot}"
+            BorderBrush="{Binding BorderBrush, ElementName=MiniMapRoot}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="PinchToZoomStates">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.25">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <BackEase EasingMode="EaseOut" />
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                    <VisualTransition From="ZoomOn"
+                                      GeneratedDuration="0:0:0.25"
+                                      To="ZoomOff">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <BackEase EasingMode="EaseOut" />
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="ZoomOff" />
+                <VisualState x:Name="ZoomOn">
+                    <VisualState.Setters>
+                        <Setter Target="PinchToZoomIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleX)"
+                                Value="1" />
+                        <Setter Target="PinchToZoomIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleY)"
+                                Value="1" />
+                        <Setter Target="PinchToZoomIcon.(UIElement.Opacity)"
+                                Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Background="{Binding Background, ElementName=MiniMapRoot}">
+            <ContentPresenter ContentTemplate="{StaticResource DocumentZoomOut}"
+                              Width="50"
+                              Height="50"
+                              x:Name="PinchToZoomIcon"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              RenderTransformOrigin="0.5,0.5"
+                              Opacity="0">
+                <ContentPresenter.RenderTransform>
+                    <CompositeTransform ScaleX="0"
+                                        ScaleY="0" />
+                </ContentPresenter.RenderTransform>
+            </ContentPresenter>
+            <Viewbox>
+                <controls:ScatterView 
+                                      x:Name="ScatterHost" />
+            </Viewbox>
+            <Rectangle x:Name="Thumb"
+                       MinWidth="32"
+                       MinHeight="20"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Fill="Yellow"
+                       ManipulationMode="None"
+                       IsDoubleTapEnabled="False"
+                       IsHoldingEnabled="False"
+                       IsRightTapEnabled="False"
+                       IsTapEnabled="False" />
+
+        </Grid>
+    </Border>
+</UserControl>
+

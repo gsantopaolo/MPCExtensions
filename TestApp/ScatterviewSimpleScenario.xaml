@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"><!--ItemsSource="{x:Bind Images}"-->
-        <controls:ScatterView  AllowItemsRotation="True">
+        <controls:ScatterView  AllowItemsRotation="True" >
             <controls:ScatterView.Items>
                 <Grid Width="200" Height="200" Background="Red" ManipulationMode="None">
                     <Button Width="50" Height="50"/>
